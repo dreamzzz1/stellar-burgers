@@ -6,6 +6,7 @@ import {
   getUserApi,
   updateUserApi
 } from '../../utils/burger-api';
+import { deleteCookie } from '../../utils/cookie';
 
 type TUser = {
   email: string;
@@ -37,7 +38,11 @@ export const logout = createAsyncThunk('auth/logout', logoutApi);
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthChecked: (state) => {
+      state.isAuthChecked = true;
+    }
+  },
   extraReducers: (builder) => {
     builder
 
@@ -75,8 +80,16 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.isAuthChecked = true;
+        // remove tokens on logout
+        try {
+          localStorage.removeItem('refreshToken');
+          deleteCookie('accessToken');
+        } catch (e) {
+          // ignore
+        }
       });
   }
 });
 
 export default authSlice.reducer;
+export const { setAuthChecked } = authSlice.actions;
