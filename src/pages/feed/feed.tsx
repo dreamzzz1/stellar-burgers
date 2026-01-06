@@ -1,15 +1,38 @@
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
-import { FC } from 'react';
+import { FC, useEffect, useCallback } from 'react';
+
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  wsConnect,
+  wsDisconnect
+} from '../../services/reducers/feed';
 
 export const Feed: FC = () => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const dispatch = useDispatch();
+
+  const orders = useSelector((state) => state.feed.orders);
+
+  const handleGetFeeds = useCallback(() => {
+    dispatch(wsConnect());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(wsConnect());
+
+    return () => {
+      dispatch(wsDisconnect());
+    };
+  }, [dispatch]);
 
   if (!orders.length) {
     return <Preloader />;
   }
 
-  <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  return (
+    <FeedUI
+      orders={orders}
+      handleGetFeeds={handleGetFeeds}
+    />
+  );
 };
