@@ -11,7 +11,7 @@ type IngredientsState = {
 const initialState: IngredientsState = {
   data: [],
   isLoading: false,
-  hasError: false,
+  hasError: false
 };
 
 export const fetchIngredients = createAsyncThunk(
@@ -40,7 +40,7 @@ const ingredientsSlice = createSlice({
         state.isLoading = false;
         state.hasError = true;
       });
-  },
+  }
 });
 
 export default ingredientsSlice.reducer;

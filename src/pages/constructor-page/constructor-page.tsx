@@ -26,7 +26,7 @@ export const ConstructorPage = () => {
 
   if (hasError) {
     return (
-      <p className="text text_type_main-default">
+      <p className='text text_type_main-default'>
         Ошибка загрузки ингредиентов
       </p>
     );

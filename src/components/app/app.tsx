@@ -28,9 +28,7 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  const isAuthChecked = useSelector(
-    (state) => state.auth.isAuthChecked
-  );
+  const isAuthChecked = useSelector((state) => state.auth.isAuthChecked);
 
   useEffect(() => {
     dispatch(getUser());
@@ -45,48 +43,36 @@ const App = () => {
       <AppHeader />
 
       <Routes location={background || location}>
-        <Route path="/" element={<ConstructorPage />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path='/' element={<ConstructorPage />} />
+        <Route path='/feed' element={<Feed />} />
 
         <Route
-          path="/login"
-          element={
-            <ProtectedRoute onlyUnAuth element={<Login />} />
-          }
+          path='/login'
+          element={<ProtectedRoute onlyUnAuth element={<Login />} />}
         />
         <Route
-          path="/register"
-          element={
-            <ProtectedRoute onlyUnAuth element={<Register />} />
-          }
+          path='/register'
+          element={<ProtectedRoute onlyUnAuth element={<Register />} />}
         />
         <Route
-          path="/forgot-password"
-          element={
-            <ProtectedRoute onlyUnAuth element={<ForgotPassword />} />
-          }
+          path='/forgot-password'
+          element={<ProtectedRoute onlyUnAuth element={<ForgotPassword />} />}
         />
         <Route
-          path="/reset-password"
-          element={
-            <ProtectedRoute onlyUnAuth element={<ResetPassword />} />
-          }
+          path='/reset-password'
+          element={<ProtectedRoute onlyUnAuth element={<ResetPassword />} />}
         />
 
         <Route
-          path="/profile"
-          element={
-            <ProtectedRoute element={<Profile />} />
-          }
+          path='/profile'
+          element={<ProtectedRoute element={<Profile />} />}
         />
         <Route
-          path="/profile/orders"
-          element={
-            <ProtectedRoute element={<ProfileOrders />} />
-          }
+          path='/profile/orders'
+          element={<ProtectedRoute element={<ProfileOrders />} />}
         />
 
-        <Route path="*" element={<NotFound404 />} />
+        <Route path='*' element={<NotFound404 />} />
       </Routes>
     </div>
   );

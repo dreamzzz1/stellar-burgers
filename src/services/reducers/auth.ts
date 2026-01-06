@@ -24,31 +24,15 @@ const initialState: TAuthState = {
   isLoading: false
 };
 
-export const login = createAsyncThunk(
-  'auth/login',
-  loginUserApi
-);
+export const login = createAsyncThunk('auth/login', loginUserApi);
 
-export const register = createAsyncThunk(
-  'auth/register',
-  registerUserApi
-);
+export const register = createAsyncThunk('auth/register', registerUserApi);
 
-export const getUser = createAsyncThunk(
-  'auth/getUser',
-  getUserApi
-);
+export const getUser = createAsyncThunk('auth/getUser', getUserApi);
 
-export const updateUser = createAsyncThunk(
-  'auth/updateUser',
-  updateUserApi
-);
+export const updateUser = createAsyncThunk('auth/updateUser', updateUserApi);
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  logoutApi
-);
-
+export const logout = createAsyncThunk('auth/logout', logoutApi);
 
 const authSlice = createSlice({
   name: 'auth',

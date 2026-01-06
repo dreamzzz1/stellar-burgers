@@ -31,10 +31,7 @@ const profileOrdersSlice = createSlice({
   }
 });
 
-export const {
-  wsConnect,
-  wsDisconnect,
-  wsMessage
-} = profileOrdersSlice.actions;
+export const { wsConnect, wsDisconnect, wsMessage } =
+  profileOrdersSlice.actions;
 
 export default profileOrdersSlice.reducer;

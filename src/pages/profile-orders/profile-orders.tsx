@@ -10,9 +10,7 @@ import {
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
 
-  const orders = useSelector(
-    (state) => state.profileOrders.orders
-  );
+  const orders = useSelector((state) => state.profileOrders.orders);
 
   useEffect(() => {
     dispatch(wsConnect());

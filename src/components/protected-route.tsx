@@ -14,22 +14,14 @@ export const ProtectedRoute = ({
 }: ProtectedRouteProps) => {
   const location = useLocation();
 
-  const user = useSelector(
-    (state: RootState) => state.auth.user
-  );
+  const user = useSelector((state: RootState) => state.auth.user);
 
   if (onlyUnAuth && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to='/' replace />;
   }
 
   if (!onlyUnAuth && !user) {
-    return (
-      <Navigate
-        to="/login"
-        state={{ from: location }}
-        replace
-      />
-    );
+    return <Navigate to='/login' state={{ from: location }} replace />;
   }
 
   return element;

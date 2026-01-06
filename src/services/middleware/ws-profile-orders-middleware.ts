@@ -1,14 +1,9 @@
 import { Middleware } from '@reduxjs/toolkit';
-import {
-  wsConnect,
-  wsDisconnect,
-  wsMessage
-} from '../reducers/profile-orders';
+import { wsConnect, wsDisconnect, wsMessage } from '../reducers/profile-orders';
 
 import { getCookie } from '../../utils/cookie';
 
-const WS_PROFILE_ORDERS_URL =
-  'wss://norma.nomoreparties.space/orders';
+const WS_PROFILE_ORDERS_URL = 'wss://norma.nomoreparties.space/orders';
 
 export const wsProfileOrdersMiddleware: Middleware = (store) => {
   let socket: WebSocket | null = null;
@@ -23,9 +18,7 @@ export const wsProfileOrdersMiddleware: Middleware = (store) => {
 
       const token = accessToken.replace('Bearer ', '');
 
-      socket = new WebSocket(
-        `${WS_PROFILE_ORDERS_URL}?token=${token}`
-      );
+      socket = new WebSocket(`${WS_PROFILE_ORDERS_URL}?token=${token}`);
 
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);

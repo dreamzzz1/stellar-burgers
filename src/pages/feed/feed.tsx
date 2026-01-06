@@ -3,10 +3,7 @@ import { FeedUI } from '@ui-pages';
 import { FC, useEffect, useCallback } from 'react';
 
 import { useDispatch, useSelector } from '../../services/store';
-import {
-  wsConnect,
-  wsDisconnect
-} from '../../services/reducers/feed';
+import { wsConnect, wsDisconnect } from '../../services/reducers/feed';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
@@ -29,10 +26,5 @@ export const Feed: FC = () => {
     return <Preloader />;
   }
 
-  return (
-    <FeedUI
-      orders={orders}
-      handleGetFeeds={handleGetFeeds}
-    />
-  );
+  return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
 };
