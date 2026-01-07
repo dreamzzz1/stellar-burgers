@@ -4,8 +4,10 @@
   align-items: flex-start;
 }
 .column {
-  display: inline;
-  min-width: 50%;
+  display: block;
+  flex: 1 1 50%;
+  box-sizing: border-box;
+  padding-right: 12px;
 }
 
 .list {
@@ -13,7 +15,7 @@
   margin: 0;
   padding-left: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   max-height: 180px;
   overflow: hidden;
@@ -26,7 +28,9 @@
 
 .list_item {
   text-align: left;
-  min-width: 50%;
+  width: 50%;
+  box-sizing: border-box;
+  padding-bottom: 6px;
 }
 
 .content {

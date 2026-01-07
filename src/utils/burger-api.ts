@@ -3,8 +3,13 @@ import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
 
-const checkResponse = <T>(res: Response): Promise<T> =>
-  res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+const checkResponse = async <T>(res: Response): Promise<T> => {
+  if (res.ok) return res.json();
+  const err = await res.json().catch(() => ({}));
+  // attach status for higher-level handling
+  (err as any).status = res.status;
+  return Promise.reject(err);
+};
 
 type TServerResponse<T> = {
   success: boolean;
@@ -43,17 +48,40 @@ export const fetchWithRefresh = async <T>(
     const res = await fetch(url, options);
     return await checkResponse<T>(res);
   } catch (err) {
-    if ((err as { message: string }).message === 'jwt expired') {
-      const refreshData = await refreshToken();
-      if (options.headers) {
-        (options.headers as { [key: string]: string }).authorization =
-          refreshData.accessToken;
+    const e = err as any;
+    const message = (e && e.message) || '';
+    const status = e && e.status;
+
+    // Attempt refresh on expired token or 401/403 server responses
+    if (
+      message === 'jwt expired' ||
+      status === 401 ||
+      status === 403 ||
+      message.toLowerCase().includes('jwt')
+    ) {
+      try {
+        const refreshData = await refreshToken();
+        if (options.headers) {
+          (options.headers as { [key: string]: string }).authorization =
+            refreshData.accessToken;
+        }
+        const res = await fetch(url, options);
+        return await checkResponse<T>(res);
+      } catch (refreshErr) {
+        // refresh failed: clear tokens to avoid retry storm
+        try {
+          localStorage.removeItem('refreshToken');
+          // delete cookie by setting expired value
+          document.cookie =
+            'accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        } catch (ignore) {
+          // ignore
+        }
+        return Promise.reject(refreshErr);
       }
-      const res = await fetch(url, options);
-      return await checkResponse<T>(res);
-    } else {
-      return Promise.reject(err);
     }
+
+    return Promise.reject(err);
   }
 };
 

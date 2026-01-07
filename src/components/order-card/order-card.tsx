@@ -47,7 +47,26 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
     };
   }, [order, ingredients]);
 
-  if (!orderInfo) return null;
+  // If ingredients aren't loaded yet, render a minimal fallback so orders are visible
+  if (!orderInfo) {
+    const date = new Date(order.createdAt);
+    const fallback = {
+      ...order,
+      ingredientsInfo: [] as TIngredient[],
+      ingredientsToShow: [] as TIngredient[],
+      remains: 0,
+      total: 0,
+      date
+    } as any;
+
+    return (
+      <OrderCardUI
+        orderInfo={fallback}
+        maxIngredients={maxIngredients}
+        locationState={{ background: location }}
+      />
+    );
+  }
 
   return (
     <OrderCardUI

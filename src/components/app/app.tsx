@@ -21,6 +21,7 @@ import { ProtectedRoute } from '../protected-route';
 
 import { useDispatch, useSelector } from '../../services/store';
 import { getUser, setAuthChecked } from '../../services/reducers/auth';
+import { fetchIngredients } from '../../services/reducers/ingredients';
 import { getCookie } from '../../utils/cookie';
 import { IngredientDetails } from '../ingredient-details';
 import { OrderInfo } from '../order-info';
@@ -45,6 +46,8 @@ const App = () => {
     } else {
       dispatch(setAuthChecked());
     }
+    // ensure ingredients are loaded for order cards on any page
+    dispatch(fetchIngredients());
   }, [dispatch]);
 
   if (!isAuthChecked) {
