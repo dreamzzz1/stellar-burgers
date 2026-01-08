@@ -1,33 +1,41 @@
-import { useSelector } from '../../services/store';
+import { useEffect } from 'react';
+
+import { useDispatch, useSelector } from '../../services/store';
+import { fetchIngredients } from '../../services/reducers/ingredients';
 
 import styles from './constructor-page.module.css';
 
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC } from 'react';
 
-export const ConstructorPage: FC = () => {
-  /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
+export const ConstructorPage = () => {
+  const dispatch = useDispatch();
+
+  const { data, isLoading, hasError } = useSelector(
+    (state) => state.ingredients
+  );
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Preloader />;
+  }
+
+  if (hasError) {
+    return (
+      <p className='text text_type_main-default'>
+        Ошибка загрузки ингредиентов
+      </p>
+    );
+  }
 
   return (
-    <>
-      {isIngredientsLoading ? (
-        <Preloader />
-      ) : (
-        <main className={styles.containerMain}>
-          <h1
-            className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}
-          >
-            Соберите бургер
-          </h1>
-          <div className={`${styles.main} pl-5 pr-5`}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </div>
-        </main>
-      )}
-    </>
+    <main className={styles.main}>
+      <BurgerIngredients />
+      <BurgerConstructor />
+    </main>
   );
 };

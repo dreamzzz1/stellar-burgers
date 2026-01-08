@@ -18,9 +18,16 @@
   display: flex;
   text-decoration: none;
   color: var(--text-inactive-color);
+  align-items: center;
+  cursor: pointer;
+  transition: color 150ms ease-in-out;
 }
 
 .link_active {
+  color: var(--text-primary-color);
+}
+
+.link:hover {
   color: var(--text-primary-color);
 }
 
